@@ -1,0 +1,137 @@
+Primeiro Prompt:
+
+    📌 Product Requirements Document (PRD)
+    🧾 Product Name
+        Expense Detective AI
+
+    🎯 Objective
+        Criar um aplicativo de organização financeira que utiliza inteligência artificial para analisar padrões de gastos e fornecer insights claros, acionáveis e personalizados ao usuário.
+
+    👤 Target User
+        Pessoas que:
+            Não conseguem entender para onde o dinheiro vai
+            Querem melhorar hábitos financeiros
+            Não gostam de planilhas complexas
+
+    🚨 Problem Statement Usuários conseguem registrar gastos, mas têm dificuldade em interpretar seus dados financeiros e transformar isso em decisões práticas.
+
+    💡 Solution Um app que: Centraliza gastos Analisa padrões automaticamente Explica comportamentos financeiros em linguagem simples Sugere melhorias práticas
+
+    🔑 Core Features
+        1. Input de Gastos
+            Inserção manual de gastos:
+            Data
+            Valor
+            Categoria
+            Descrição
+        2. Dashboard
+            Total gasto no mês
+            Gasto por categoria
+            Tendência de gastos
+        3. AI Insights (Principal Feature)
+            Botão: “Analisar meus gastos”
+                A IA deve:
+                    Identificar padrões de consumo
+                    Comparar com boas práticas financeiras
+                    Gerar recomendações
+                        Exemplo de saída:
+                            “Você gasta 30% com alimentação fora de casa, acima do recomendado”
+                            “Seus gastos aumentam nos finais de semana”
+        4. Alertas Inteligentes “Você já gastou 80% do orçamento de lazer” “Seu saldo pode acabar em X dias”
+        5. Simulação Financeira
+            Usuário altera um valor IA responde impacto
+                Exemplo: “Se reduzir R$200 em delivery, economiza R$2400/ano”
+        6. Score Financeiro
+            Nota de 0 a 100 baseada em:
+                Consistência
+                Distribuição de gastos
+                Previsibilidade
+
+    🎨 UI/UX Guidelines
+        Interface simples
+        Linguagem amigável
+        Foco em insights, não em gráficos complexos
+        Feedback claro da IA
+
+    ⚙️ Technical Requirements
+        Frontend: React ou Next.js
+        Dados: mockados/local storage
+        Integração com IA via prompt
+        Sem necessidade de backend robusto
+
+    📈 Success Criteria
+        Usuário entende rapidamente seus padrões de gasto
+        Insights são claros e úteis
+        Interface simples e intuitiva
+
+
+Segundo Prompt:
+
+    Atualize o projeto para integrar uma API real de inteligência artificial utilizando a API da Groq.
+
+    Objetivo:
+        Substituir qualquer lógica simulada de análise financeira por uma chamada real para a API da Groq, utilizando um modelo de linguagem para gerar insights baseados nos dados de gastos do usuário.
+
+    Requisitos:
+        Criar um serviço de IA
+        Criar um arquivo como: /src/services/aiService.js
+        Esse serviço deve ser responsável por fazer a chamada HTTP para a API da Groq
+        Configuração da API
+        Utilizar variável de ambiente:
+        VITE_GROQ_API_KEY
+        Endpoint:
+        https://api.groq.com/openai/v1/chat/completions
+        Implementar função principal:
+
+    Nome sugerido:
+        analyzeExpenses(expenses)
+
+    Essa função deve:
+        Receber a lista de gastos do usuário
+        Converter os dados em texto estruturado
+        Enviar para a API da Groq usando o prompt abaixo
+        Prompt que deve ser usado na requisição:
+
+    Você é um analista financeiro pessoal.
+        Analise os dados de gastos abaixo e gere insights claros, diretos e úteis.
+
+    Dados:
+        {{expenses}}
+
+    Regras:
+        Use linguagem simples
+        Seja direto
+        Identifique padrões
+        Aponte problemas
+        Sugira melhorias práticas
+
+    Formato da resposta:
+        Principais padrões identificados
+        Problemas encontrados
+        Recomendações práticas
+        Insight final resumido (1 frase forte)
+        Evite respostas genéricas.
+        Seja específico com base nos dados.
+
+    Modelo da Groq
+        Usar modelo:
+            llama3-70b-8192 (ou equivalente disponível)
+        Integração com UI
+            Atualizar o botão "Analisar meus gastos"
+    Ao clicar:
+        chamar a função analyzeExpenses
+        exibir loading enquanto processa
+        mostrar resposta da IA na tela de insights
+    Tratamento de erros
+        Se falhar:
+            mostrar mensagem amigável:
+                "Erro ao analisar seus dados. Tente novamente."
+    Segurança
+        Nunca expor a API key diretamente no código
+        Usar .env
+        Código limpo
+        Separar lógica de UI e serviço
+        Evitar duplicação
+
+    Objetivo final:
+        O usuário deve clicar em "Analisar meus gastos" e receber uma análise real gerada por IA com base nos dados inseridos.

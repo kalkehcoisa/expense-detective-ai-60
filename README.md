@@ -28,8 +28,6 @@ Ferramentas de controle financeiro geralmente:
 * Exigem interpretação manual
 * Não ajudam na tomada de decisão
 
-Isso faz com que muitos usuários registrem gastos, mas não consigam melhorar sua situação financeira.
-
 ---
 
 ## 💡 Solução
@@ -48,65 +46,29 @@ O Expense Detective AI atua como um **analista financeiro pessoal**, oferecendo:
 
 * 📊 Dashboard com visão geral dos gastos
 * ➕ Registro manual de despesas
-* 🤖 Análise financeira com IA
+* 🤖 Análise financeira com IA (via Groq)
 * ⚠️ Alertas automáticos
 * 🔮 Simulação de economia
 * 🏆 Score financeiro
 
 ---
 
-## 🤖 Uso de Inteligência Artificial
-
-A IA é utilizada para:
-
-* Identificar padrões de consumo
-* Detectar comportamentos problemáticos
-* Gerar insights em linguagem natural
-* Simular impactos financeiros
-
----
-
-## 🧪 Prompt Principal Utilizado (PRD)
-
-```txt
-Você é um analista financeiro pessoal.
-
-Analise os dados de gastos abaixo e gere insights claros, diretos e úteis.
-
-Dados:
-{{gastos_do_usuario}}
-
-Regras:
-- Use linguagem simples
-- Seja direto
-- Identifique padrões
-- Aponte problemas
-- Sugira melhorias práticas
-
-Formato da resposta:
-
-1. Principais padrões identificados
-2. Problemas encontrados
-3. Recomendações práticas
-4. Insight final resumido (1 frase forte)
-
-Evite respostas genéricas.
-Seja específico com base nos dados.
-```
-
----
-
 ## 🧱 Tecnologias Utilizadas
 
 * JavaScript
-* React / Next.js
-* Node.js
+* React + Vite
 * Lovable (Vibe Coding)
 * GitHub
 
 ---
 
 ## ▶️ Como Rodar o Projeto
+
+Acesse online:
+
+👉 https://expense-detective-ai-60.lovable.app/
+
+Ou rode localmente:
 
 ```bash
 npm install
@@ -123,7 +85,143 @@ http://localhost:3000
 
 ## 🖼️ Demonstração
 
-> Adicione aqui prints do app rodando ou das interações com o Lovable.
+### 📊 Fluxo do Aplicativo
+
+**1. Dashboard geral de gastos**  
+![Dashboard](./imgs/01.png)
+
+**2. Cadastro de despesas**  
+![Cadastro](./imgs/02.png)
+
+**3. Processamento da análise com IA**  
+![Análise](./imgs/03.png)
+
+**4. Insights financeiros gerados**  
+![Insights](./imgs/04.png)
+
+---
+
+
+## 🤖 Uso de Inteligência Artificial
+
+A aplicação utiliza a API da Groq para gerar análises financeiras em linguagem natural com base nos dados do usuário.
+
+A IA é responsável por:
+
+* Identificar padrões de consumo
+* Detectar problemas financeiros
+* Sugerir melhorias práticas
+* Simular impactos financeiros
+
+---
+
+## 🧪 Prompts Utilizados
+
+### 📌 Prompt 1 — PRD (Criação do Projeto)
+
+```txt
+📌 Product Requirements Document (PRD)
+
+🧾 Product Name
+Expense Detective AI
+
+🎯 Objective
+Criar um aplicativo de organização financeira que utiliza inteligência artificial para analisar padrões de gastos e fornecer insights claros, acionáveis e personalizados ao usuário.
+
+👤 Target User
+Pessoas que:
+- Não conseguem entender para onde o dinheiro vai
+- Querem melhorar hábitos financeiros
+- Não gostam de planilhas complexas
+
+🚨 Problem Statement
+Usuários conseguem registrar gastos, mas têm dificuldade em interpretar seus dados financeiros e transformar isso em decisões práticas.
+
+💡 Solution
+Um app que:
+- Centraliza gastos
+- Analisa padrões automaticamente
+- Explica comportamentos financeiros em linguagem simples
+- Sugere melhorias práticas
+
+🔑 Core Features
+1. Input de Gastos
+2. Dashboard
+3. AI Insights
+4. Alertas Inteligentes
+5. Simulação Financeira
+6. Score Financeiro
+
+🎨 UI/UX Guidelines
+- Interface simples
+- Linguagem amigável
+- Foco em insights
+
+⚙️ Technical Requirements
+- React ou Next.js
+- Dados mockados
+- Integração com IA
+
+📈 Success Criteria
+- Insights claros
+- Facilidade de uso
+```
+
+---
+
+### 🤖 Prompt 2 — Integração com IA (Groq)
+
+```txt
+Atualize o projeto para integrar uma API real de inteligência artificial utilizando a API da Groq.
+
+Objetivo:
+Substituir lógica simulada por análise real com IA.
+
+Requisitos:
+- Criar /src/services/aiService.js
+- Usar VITE_GROQ_API_KEY
+- Endpoint:
+  https://api.groq.com/openai/v1/chat/completions
+
+Função principal:
+analyzeExpenses(expenses)
+
+Prompt utilizado:
+
+Você é um analista financeiro pessoal.
+
+Analise os dados de gastos abaixo e gere insights claros, diretos e úteis.
+
+Dados:
+{{expenses}}
+
+Regras:
+- Linguagem simples
+- Seja direto
+- Identifique padrões
+- Sugira melhorias
+
+Formato:
+1. Padrões
+2. Problemas
+3. Recomendações
+4. Insight final
+
+Modelo:
+llama3-70b-8192
+
+Integração:
+- Botão "Analisar meus gastos"
+- Exibir loading
+- Mostrar resposta
+
+Tratamento de erro:
+"Erro ao analisar seus dados. Tente novamente."
+
+Segurança:
+- Usar .env
+- Não expor API key
+```
 
 ---
 
@@ -134,32 +232,28 @@ http://localhost:3000
   /components
   /pages
   /services
-  /data
 ```
 
 ---
 
 ## 💭 Aprendizados
 
-Durante o desenvolvimento deste projeto, foi possível aprender:
-
-* Como estruturar um PRD claro e objetivo
-* Como utilizar IA de forma direcionada com prompts bem definidos
-* A importância de transformar dados em insights úteis
-* A diferença entre criar funcionalidades e gerar valor real para o usuário
+* Como estruturar um PRD claro
+* Como guiar IA com prompts bem definidos
+* Como transformar dados em insights
+* Diferença entre funcionalidade e valor
 
 ---
 
-## 🚀 Possíveis Melhorias Futuras
+## 🚀 Possíveis Melhorias
 
-* Integração com contas bancárias
-* Importação automática de extratos
-* IA mais avançada com histórico do usuário
-* Aplicação mobile
-* Sistema de metas financeiras
+* Integração com bancos
+* Importação automática de dados
+* IA com memória do usuário
+* Versão mobile
 
 ---
 
 ## 📄 Licença
 
-Este projeto foi desenvolvido para fins educacionais como parte de um desafio da DIO.
+Projeto desenvolvido para fins educacionais (DIO).
