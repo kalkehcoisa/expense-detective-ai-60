@@ -64,7 +64,7 @@ Seja específico com base nos dados.`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama3-70b-8192',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'system', content: 'Você é um analista financeiro pessoal brasileiro especializado em finanças pessoais.' },
           { role: 'user', content: prompt },
