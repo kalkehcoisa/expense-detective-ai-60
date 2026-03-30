@@ -1,36 +1,32 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, AlertTriangle, Lightbulb, TrendingUp } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Expense, AIInsight } from '@/lib/types';
-import { generateInsights } from '@/lib/aiEngine';
-
-const icons = {
-  warning: AlertTriangle,
-  tip: Lightbulb,
-  pattern: TrendingUp,
-};
-
-const styles = {
-  warning: 'border-l-warning bg-warning/5',
-  tip: 'border-l-accent bg-accent/5',
-  pattern: 'border-l-info bg-info/5',
-};
+import { Expense } from '@/lib/types';
+import { analyzeExpenses } from '@/services/aiService';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
   expenses: Expense[];
 }
 
 export function AIInsightsPanel({ expenses }: Props) {
-  const [insights, setInsights] = useState<AIInsight[] | null>(null);
+  const [analysis, setAnalysis] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const analyze = () => {
+  const analyze = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setInsights(generateInsights(expenses));
+    setError(null);
+    try {
+      const result = await analyzeExpenses(expenses);
+      setAnalysis(result);
+    } catch (err: any) {
+      setError(err.message || 'Erro ao analisar seus dados. Tente novamente.');
+      setAnalysis(null);
+    } finally {
       setLoading(false);
-    }, 1200);
+    }
   };
 
   return (
@@ -51,33 +47,23 @@ export function AIInsightsPanel({ expenses }: Props) {
               <Sparkles className="w-6 h-6 text-primary animate-pulse" />
               <div className="absolute inset-0 rounded-full animate-pulse-ring border-2 border-primary/30" />
             </div>
-            <span className="text-sm">Investigando seus padrões...</span>
+            <span className="text-sm">A IA está analisando seus gastos...</span>
           </motion.div>
         )}
 
-        {!loading && insights && (
-          <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-            {insights.map((insight, i) => {
-              const Icon = icons[insight.type];
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`border-l-4 rounded-lg p-4 ${styles[insight.type]}`}
-                >
-                  <div className="flex gap-3">
-                    <Icon className="w-5 h-5 shrink-0 mt-0.5" />
-                    <p className="text-sm leading-relaxed">{insight.message}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
+        {!loading && error && (
+          <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-destructive bg-destructive/10 rounded-lg p-4 text-center">
+            {error}
           </motion.div>
         )}
 
-        {!loading && !insights && (
+        {!loading && analysis && !error && (
+          <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="prose prose-sm max-w-none dark:prose-invert">
+            <ReactMarkdown>{analysis}</ReactMarkdown>
+          </motion.div>
+        )}
+
+        {!loading && !analysis && !error && (
           <p className="text-sm text-muted-foreground py-4 text-center">Clique em "Analisar" para a IA investigar seus gastos.</p>
         )}
       </AnimatePresence>
